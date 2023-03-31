@@ -8,7 +8,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Hello, world!</Text>
-      <Text>This is a smart NTES alarm clock</Text>
+      <Text>This is a smart alarm clock</Text>
       <StatusBar style="auto" />
       {/* <Button onPress={() => setCount(count + 1)} title="Click me!" /> */}
     </View>
