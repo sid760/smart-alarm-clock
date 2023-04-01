@@ -10,7 +10,7 @@
       "type": "reactnativedirect",
       "cwd": "${workspaceFolder}",
       "address": "localhost",
-      "port": 19006
+      "port": 19001
     },
     {
       "name": "Debug Android",

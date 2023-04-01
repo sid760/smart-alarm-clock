@@ -1,3 +1,4 @@
+<script src="http://192.168.177.80:8097"></script>;
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, Button, View } from "react-native";
 
