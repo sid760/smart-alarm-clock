@@ -1,26 +1,55 @@
-<script src="http://192.168.177.80:8097"></script>;
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, Button, View } from "react-native";
+import React from "react";
+import WelcomeScreen from "./App/Screen/WelcomeScreen";
+import SecondScreen from "./App/Screen/SecondScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import {
+  createStackNavigator,
+  Transit,
+  CardStyleInterpolators,
+} from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+const config = {
+  animation: "spring",
+  config: {
+    stiffness: 100,
+    damping: 300,
+    mass: 3,
+    overshootingClamping: false,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01,
+  },
+};
 
 export default function App() {
-  let x = 1;
-  console.log("App executed");
+  const Stack = createStackNavigator();
 
   return (
-    <View style={styles.container}>
-      <Text>Hello, world!</Text>
-      <Text>This is a smart alarm clock</Text>
-      <StatusBar style="auto" />
-      {/* <Button onPress={() => setCount(count + 1)} title="Click me!" /> */}
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          gestureEnabled: true,
+          gestureDirection: "horizontal",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          transitionSpec: {
+            open: config,
+            close: config,
+          },
+        }}
+        headerMode="float"
+        animation="fade"
+      >
+        <Stack.Screen
+          name="WelcomeScreen"
+          component={WelcomeScreen}
+          options={{ title: null }}
+        />
+        <Stack.Screen
+          name="SecondScreen"
+          component={SecondScreen}
+          options={{ title: null }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
