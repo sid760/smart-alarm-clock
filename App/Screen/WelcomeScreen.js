@@ -1,64 +1,93 @@
 import React, { Component } from "react";
 import LottieView from "lottie-react-native";
 import {
-  Alert,
-  Platform,
+
   StyleSheet,
   Text,
-  TouchableHighlight,
   TouchableOpacity,
-  TouchableNativeFeedback,
-  TouchableWithoutFeedback,
-  View,
-  Image,
-  ImageBackground,
+  View
+  
 } from "react-native";
 
 function WelcomeScreen({ navigation }) {
   return (
+    <View style={styles.container}>
     <LottieView
-      style={styles.background}
-      source={require("../assets/Welcome.json")}
-      autoPlay
-    >
-      <Image style={styles.logo} source={require("../assets/logo.png")}></Image>
-      {/* container: */}
-      <TouchableOpacity onPress={() => navigation.navigate("SecondScreen")}>
+       style={styles.animation}
+       source={require('../assets/Anime.json')}
+       autoPlay
+       loop={true}
+       speed={0.3} 
+     />
+        <Text style={styles.textOverlay}>Welcome  </Text>
+        <Text style={styles.textOverlay2}> Title</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("SecondScreen")}>
         <View style={styles.button}>
-          <Text style={styles.buttonText}>Let's Start</Text>
+        <Text style={styles.buttonText}>Let's Start</Text>
         </View>
       </TouchableOpacity>
-    </LottieView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    position: "absolute",
-    top: 70,
-  },
-  container: {
-    paddingTop: 60,
-    alignItems: "center",
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    
+        
+      },
+      animation: {
+        width: '100%',
+        height: '100%',
+    
+      },
+      
+ 
   button: {
     marginBottom: 30,
     width: 260,
     alignItems: "center",
-    backgroundColor: "#2196F3",
+    backgroundColor: "White",
+    zIndex: 999,
+    transform: [{ translateX: -134 }, { translateY: -90 }],
+    
+    position: 'absolute',
   },
   buttonText: {
     textAlign: "center",
     padding: 20,
     color: "white",
-  },
+    zIndex: 999,
+    fontWeight:'900',
+    position: 'absolute',
+    fontSize:20,
+    borderWidth: 2, // Add border width
+    borderColor: 'white', // Add border color
+    borderRadius: 7,
+            },
+    textOverlay: {
+        position: 'absolute',
+        top: '45%',
+        left: '40%',
+        transform: [{ translateX: -40 }, { translateY: -270 }],
+        zIndex: 999,
+        color:'white',
+        fontWeight:'900',
+        fontSize:30,
+        
+      },
+      textOverlay2: {
+        position: 'absolute',
+        top: '50%',
+        left: '66%',
+        transform: [{ translateX: -80 }, { translateY: -250 }],
+        zIndex: 999,
+        color:'white',
+        fontWeight:'900',
+        fontSize:15,  
+        fontStyle:'italic'  }
 });
 
 export default WelcomeScreen;

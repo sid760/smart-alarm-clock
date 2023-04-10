@@ -2,7 +2,7 @@ import React from "react";
 import WelcomeScreen from "./App/Screen/WelcomeScreen";
 import SecondScreen from "./App/Screen/SecondScreen";
 import { NavigationContainer } from "@react-navigation/native";
-import LottieView from "lottie-react-native";
+
 import {
   createStackNavigator,
   CardStyleInterpolators,

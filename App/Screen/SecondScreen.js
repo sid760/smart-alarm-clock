@@ -1,18 +1,36 @@
 import React from 'react';
-import{view ,Image, SafeAreaView, Button,StyleSheet,Text,ImageBackground} from 'react-native';
-
+import{View ,Image, SafeAreaView, Button,StyleSheet,Text,ImageBackground} from 'react-native';
+import LottieView from 'lottie-react-native';
 function SecondScreen({navigation}){
     return(
-        <ImageBackground style={styles.background} 
-    source ={require("../assets/Background.jpg")}></ImageBackground>
+        <View style={styles.container}>
+        
+        <LottieView
+       
+          style={styles.animation}
+          source={require('../assets/Anime.json')}
+          autoPlay
+          loop={true}
+          speed={0.3}
+        
+        />
+        </View>
     )
 };
 
 const styles = StyleSheet.create({
     
-      background:{ 
-        flex:1,
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    
         
+      },
+      animation: {
+        width: '100%',
+        height: '100%',
+    
         }
     });
 export default SecondScreen;
