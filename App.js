@@ -4,7 +4,6 @@ import SecondScreen from "./App/Screen/SecondScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   createStackNavigator,
-  Transit,
   CardStyleInterpolators,
 } from "@react-navigation/stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
