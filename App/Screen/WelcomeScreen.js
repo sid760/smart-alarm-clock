@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import LottieView from "lottie-react-native";
 import {
   Alert,
   Platform,
@@ -15,18 +16,19 @@ import {
 
 function WelcomeScreen({ navigation }) {
   return (
-    <ImageBackground
+    <LottieView
       style={styles.background}
-      source={require("../assets/Background.jpg")}
+      source={require("../assets/Welcome.json")}
+      autoPlay
     >
       <Image style={styles.logo} source={require("../assets/logo.png")}></Image>
       {/* container: */}
-      <TouchableOpacity onPress={this._onPressButton}>
+      <TouchableOpacity onPress={() => navigation.navigate("SecondScreen")}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>Let's Start</Text>
         </View>
       </TouchableOpacity>
-    </ImageBackground>
+    </LottieView>
   );
 }
 
@@ -36,13 +38,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
   },
-  EnterButton: {
-    justifyContent: "center",
-    width: "30%",
-    height: "40%",
-    backgroundColor: "#86d4e0",
-  },
-
   logo: {
     width: 100,
     height: 100,

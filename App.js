@@ -2,6 +2,7 @@ import React from "react";
 import WelcomeScreen from "./App/Screen/WelcomeScreen";
 import SecondScreen from "./App/Screen/SecondScreen";
 import { NavigationContainer } from "@react-navigation/native";
+import LottieView from "lottie-react-native";
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -9,16 +10,23 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const config = {
-  animation: "spring",
+  animation: "",
   config: {
     stiffness: 100,
-    damping: 300,
-    mass: 3,
+    damping: 1,
+    mass: 1,
     overshootingClamping: false,
     restDisplacementThreshold: 0.01,
     restSpeedThreshold: 0.01,
   },
 };
+
+// const config = {
+//   animation: "decay",
+//   velocity: 50,
+//   deceleration: -0.99,
+//   useNativeDriver: true,
+// };
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -29,7 +37,7 @@ export default function App() {
         screenOptions={{
           gestureEnabled: true,
           gestureDirection: "horizontal",
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
           transitionSpec: {
             open: config,
             close: config,

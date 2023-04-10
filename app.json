@@ -17,15 +17,7 @@
     "ios": {
       "supportsTablet": true
     },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./App/assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./App/assets/favicon.png"
-    },
+    
     "jsEngine": "hermes"
   }
 }
