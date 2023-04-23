@@ -19,8 +19,8 @@ function WelcomeScreen({ navigation }) {
        loop={true}
        speed={0.3} 
      />
-        <Text style={styles.textOverlay}>Welcome  </Text>
-        <Text style={styles.textOverlay2}> Title</Text>
+        <Text style={styles.textOverlay}>Travel alarm clock  </Text>
+        <Text style={styles.textOverlay2}> 'Your personalized wake-up call starts here'</Text>
         <TouchableOpacity onPress={() => navigation.navigate("SecondScreen")}>
         <View style={styles.button}>
         <Text style={styles.buttonText}>Let's Start</Text>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: '45%',
         left: '40%',
-        transform: [{ translateX: -40 }, { translateY: -270 }],
+        transform: [{ translateX: -100 }, { translateY: -270 }],
         zIndex: 999,
         color:'white',
         fontWeight:'900',
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: '50%',
         left: '66%',
-        transform: [{ translateX: -80 }, { translateY: -250 }],
+        transform: [{ translateX: -220 }, { translateY: -250 }],
         zIndex: 999,
         color:'white',
         fontWeight:'900',
