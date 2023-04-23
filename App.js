@@ -41,10 +41,10 @@ export default function App() {
           transitionSpec: {
             open: config,
             close: config,
+            headerMode: "float",
+            animation: "fade",
           },
         }}
-        headerMode="float"
-        animation="fade"
       >
         <Stack.Screen
           name="WelcomeScreen"
