@@ -49,12 +49,12 @@ export default function App() {
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
-          options={{ title: null }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="SecondScreen"
           component={SecondScreen}
-          options={{ title: null }}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
