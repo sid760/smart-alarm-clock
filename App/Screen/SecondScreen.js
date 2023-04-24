@@ -43,6 +43,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  
+    
   },
   backgroundImage: {
     flex: 1,
@@ -52,14 +54,14 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '80%',
-    marginTop: 40,
+    marginTop:100,
     display: 'flex',
    flexDirection: 'column',
     alignItems: 'center',
     justifyContent:'center'
   },
   input: {
-    height: 50,
+    height: 40,
     marginVertical: 10,
     borderWidth: 2,
     borderRadius: 15,
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '900',
     fontSize: 20,
-    marginTop: 3, // Adjust this value to control the margin from the top
+    marginTop: -200, // Adjust this value to control the margin from the top
   },
 });
 
