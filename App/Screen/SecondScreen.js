@@ -6,16 +6,21 @@ import {
   Text,
   ImageBackground,
   KeyboardAvoidingView,
+  TouchableOpacity
 } from "react-native";
 import { Dimensions } from "react-native";
 import dayjs from "dayjs";
 import { ScrollView } from "react-native-gesture-handler";
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 
 
 function SecondScreen({ navigation }) {
   const [input1, setInput1] = useState("");
   const [input2, setInput2] = useState("");
-  const [input3, setInput3] = useState("");
+  const [input3, setInput3] = useState(new Date());  
+  const [input4, setInput4] = useState("");
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [currentTime, setCurrentTime] = useState(dayjs().format("hh:mm"));
 
   useEffect(() => {
@@ -24,6 +29,13 @@ function SecondScreen({ navigation }) {
     }, 1000);
     return () => clearInterval(intervalId);
   }, []);
+
+  const handleDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || input3;
+    setShowDatePicker(Platform.OS === 'ios');
+    setInput3(currentDate);
+  };
+
 
   return (
     <ImageBackground
@@ -52,12 +64,29 @@ function SecondScreen({ navigation }) {
               onChangeText={(text) => setInput2(text)}
               value={input2}
             />
+            <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+              <TextInput
+                style={styles.input}
+                placeholder=" Enter Date"
+                placeholderTextColor={"white"}
+                value={dayjs(input3).format("DD MMMM YYYY")}
+                editable={false}
+              />
+            </TouchableOpacity>
+            {showDatePicker && (
+              <DateTimePicker
+                value={input3}
+                mode="date"
+                display="default"
+                onChange={handleDateChange}
+              />
+            )}
             <TextInput
               style={styles.input}
               placeholder="Buffer"
               placeholderTextColor={"white"}
-              onChangeText={(text) => setInput3(text)}
-              value={input3}
+              onChangeText={(text) => setInput4(text)}
+              value={input4}
             />
           </ScrollView>
         </View>
