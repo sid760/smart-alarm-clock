@@ -13,8 +13,6 @@ import dayjs from "dayjs";
 import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-
-
 function SecondScreen({ navigation }) {
   const [input1, setInput1] = useState("");
   const [input2, setInput2] = useState("");
@@ -22,6 +20,8 @@ function SecondScreen({ navigation }) {
   const [input4, setInput4] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [currentTime, setCurrentTime] = useState(dayjs().format("hh:mm A"));
+  const [alarms, setAlarms] = useState([]);
+
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -42,7 +42,7 @@ function SecondScreen({ navigation }) {
       station: input2,
       date: input3,
       buffer: input4
-      
+    ///  setAlarms([...alarms, newAlarm]);
     });
     
   
@@ -109,7 +109,7 @@ function SecondScreen({ navigation }) {
         
       <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={handleSubmit}>
-      <Text style={styles.buttonText}>Submit</Text>
+      <Text style={styles.buttonText}>Set Alarm</Text>
       </TouchableOpacity>
       </View>
         
