@@ -21,11 +21,11 @@ function SecondScreen({ navigation }) {
   const [input3, setInput3] = useState(new Date());  
   const [input4, setInput4] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [currentTime, setCurrentTime] = useState(dayjs().format("HH:MM"));
+  const [currentTime, setCurrentTime] = useState(dayjs().format("hh:mm A"));
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setCurrentTime(dayjs().format("HH:MM"));
+      setCurrentTime(dayjs().format("hh:mm A"));
     }, 1000);
     return () => clearInterval(intervalId);
   }, []);
@@ -35,6 +35,18 @@ function SecondScreen({ navigation }) {
     setShowDatePicker(Platform.OS === 'ios');
     setInput3(currentDate);
   };
+  const handleSubmit = () => {
+  
+    console.log({
+      trainNumber: input1,
+      station: input2,
+      date: input3,
+      buffer: input4
+      
+    });
+    
+  
+    };
 
 
   return (
@@ -56,6 +68,7 @@ function SecondScreen({ navigation }) {
               placeholderTextColor={"white"}
               onChangeText={(text) => setInput1(text)}
               value={input1}
+              required
             />
             <TextInput
               style={styles.input}
@@ -63,6 +76,7 @@ function SecondScreen({ navigation }) {
               placeholderTextColor={"white"}
               onChangeText={(text) => setInput2(text)}
               value={input2}
+              required
             />
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
               <TextInput
@@ -71,6 +85,7 @@ function SecondScreen({ navigation }) {
                 placeholderTextColor={"white"}
                 value={dayjs(input3).format("DD MMMM YYYY")}
                 editable={false}
+                required
               />
             </TouchableOpacity>
             {showDatePicker && (
@@ -79,6 +94,7 @@ function SecondScreen({ navigation }) {
                 mode="date"
                 display="default"
                 onChange={handleDateChange}
+                required
               />
             )}
             <TextInput
@@ -87,10 +103,19 @@ function SecondScreen({ navigation }) {
               placeholderTextColor={"white"}
               onChangeText={(text) => setInput4(text)}
               value={input4}
+              required
             />
           </ScrollView>
+        
+      <View style={styles.buttonContainer}>
+      <TouchableOpacity onPress={handleSubmit}>
+      <Text style={styles.buttonText}>Submit</Text>
+      </TouchableOpacity>
+      </View>
+        
         </View>
         
+      
       </View>
     </ImageBackground>
   );
@@ -158,6 +183,36 @@ const styles = StyleSheet.create({
     fontFamily: "",
     color: "white",
   },
+  
+  buttonContainer: {
+    alignSelf: "center",
+    marginTop: 20,
+    backgroundColor: "white",
+    borderRadius: 40,
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    borderColor: "white",
+    
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  buttonContainer: {
+    alignSelf: "center",
+    marginTop: 20,
+    backgroundColor: "white",
+    borderRadius: 30,
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+  },
+  buttonText: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  
 });
 
 export default SecondScreen;
