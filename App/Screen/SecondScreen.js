@@ -21,11 +21,11 @@ function SecondScreen({ navigation }) {
   const [input3, setInput3] = useState(new Date());  
   const [input4, setInput4] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [currentTime, setCurrentTime] = useState(dayjs().format("hh:mm"));
+  const [currentTime, setCurrentTime] = useState(dayjs().format("HH:MM"));
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setCurrentTime(dayjs().format("hh:mm"));
+      setCurrentTime(dayjs().format("HH:MM"));
     }, 1000);
     return () => clearInterval(intervalId);
   }, []);
