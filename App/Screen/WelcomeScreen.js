@@ -30,9 +30,9 @@ const screenDimensions = Dimensions.get("screen");
 // };
 
 // for debugging only
-const width = window.innerWidth;
-const height = window.innerHeight;
-console.log(`The viewport's width is ${width} and the height is ${height}.`);
+// const width = windowDimensions.width;
+// const height = windowDimensions.height;
+// console.log(`The viewport's width is ${width} and the height is ${height}.`);
 
 function WelcomeScreen({ navigation }) {
   return (
