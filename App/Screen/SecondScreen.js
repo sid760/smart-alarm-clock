@@ -14,6 +14,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Notifications from "expo-notifications";
 import { Audio } from "expo-av";
+import SQLite from 'expo-sqlite'; 
+import mysql from 'mysql2/promise';
 
 function SecondScreen({ navigation }) {
   const [input1, setInput1] = useState("");
@@ -23,7 +25,7 @@ function SecondScreen({ navigation }) {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [currentTime, setCurrentTime] = useState(dayjs().format("hh:mm A"));
   const [alarms, setAlarms] = useState([]);
-
+  console.log(useState([]))
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTime(dayjs().format("hh:mm A"));
