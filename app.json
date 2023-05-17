@@ -7,20 +7,18 @@
     "slug": "smart-alarm-clock",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./App/assets/icon.png",
+    "icon": "./App/assets/icon.jpeg",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./App/assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
-    
+
     "jsEngine": "hermes"
   }
 }

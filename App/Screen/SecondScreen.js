@@ -7,15 +7,15 @@ import {
   ImageBackground,
   TouchableOpacity,
   Alert,
+  Dimensions,
 } from "react-native";
-import { Dimensions } from "react-native";
 import dayjs from "dayjs";
 import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Notifications from "expo-notifications";
 import { Audio } from "expo-av";
-import SQLite from 'expo-sqlite'; 
-import mysql from 'mysql2/promise';
+// import SQLite from 'expo-sqlite';
+// import mysql from 'mysql2/promise';
 
 function SecondScreen({ navigation }) {
   const [input1, setInput1] = useState("");
@@ -25,7 +25,7 @@ function SecondScreen({ navigation }) {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [currentTime, setCurrentTime] = useState(dayjs().format("hh:mm A"));
   const [alarms, setAlarms] = useState([]);
-  console.log(useState([]))
+  // console.log(useState([]));
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTime(dayjs().format("hh:mm A"));
@@ -35,27 +35,31 @@ function SecondScreen({ navigation }) {
 
   useEffect(() => {
     Notifications.requestPermissionsAsync();
-    const subscription = Notifications.addNotificationReceivedListener(async notification => {
-      // Handle the incoming notification here
-      console.log(notification);
-  
-      // Display the custom message in an alert
-      Alert.alert(notification.request.content.title, notification.request.content.body);
-      try {
-        const { sound } = await Audio.Sound.createAsync(
-          require("../assets/notification_sound.mp3")
+    const subscription = Notifications.addNotificationReceivedListener(
+      async (notification) => {
+        // Handle the incoming notification here
+        console.log(notification);
+
+        // Display the custom message in an alert
+        Alert.alert(
+          notification.request.content.title,
+          notification.request.content.body
         );
-        await sound.playAsync();
-      } catch (error) {
-        console.log("Failed to play sound:", error);
+        try {
+          const { sound } = await Audio.Sound.createAsync(
+            require("../assets/notification_sound.mp3")
+          );
+          await sound.playAsync();
+        } catch (error) {
+          console.log("Failed to play sound:", error);
+        }
       }
-    });
-  
+    );
+
     return () => {
       subscription.remove();
     };
   }, []);
-  
 
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || input3;
@@ -65,7 +69,7 @@ function SecondScreen({ navigation }) {
 
   const scheduleAlarmNotification = async () => {
     const arrivalTime = input3.getTime();
-    const bufferSeconds = Number(buffer);
+    const bufferSeconds = floor(Number(buffer) / 60);
 
     if (!input1 || !input2 || !arrivalTime || !bufferSeconds) {
       Alert.alert("Incomplete Details", "Please fill all details");
@@ -87,17 +91,17 @@ function SecondScreen({ navigation }) {
       }
 
       const alarmTime = arrivalTime + bufferSeconds * 1000;
-      const  notificationId = await Notifications.scheduleNotificationAsync({
+      const notificationId = await Notifications.scheduleNotificationAsync({
         content: {
           title: "Alarm",
           body: "It's time!",
           sound: true,
         },
         trigger: { seconds: bufferSeconds },
-        repeats:false,
+        repeats: false,
       });
 
-      setAlarms([...alarms, { time: alarmTime ,notificationId }]);
+      setAlarms([...alarms, { time: alarmTime, notificationId }]);
       setInput1("");
       setInput2("");
       setInput3(new Date());
@@ -158,7 +162,7 @@ function SecondScreen({ navigation }) {
             )}
             <TextInput
               style={styles.input}
-              placeholder="Buffer (in seconds)"
+              placeholder="Wake me before.. (minutes)"
               placeholderTextColor={"white"}
               onChangeText={(text) => setBuffer(text)}
               value={buffer}
