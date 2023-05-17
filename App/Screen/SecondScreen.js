@@ -92,6 +92,7 @@ function SecondScreen({ navigation }) {
           sound: true,
         },
         trigger: { seconds: bufferSeconds },
+        repeats:false,
       });
 
       setAlarms([...alarms, { time: alarmTime ,notificationId }]);
