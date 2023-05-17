@@ -1,5 +1,8 @@
 {
   "expo": {
+    "android": {
+      "useNextNotificationsApi": true
+    },
     "name": "smart-alarm-clock",
     "slug": "smart-alarm-clock",
     "version": "1.0.0",

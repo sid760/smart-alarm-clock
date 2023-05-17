@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Notifications from "expo-notifications";
+import { Audio } from "expo-av";
 
 function SecondScreen({ navigation }) {
   const [input1, setInput1] = useState("");
@@ -32,12 +33,20 @@ function SecondScreen({ navigation }) {
 
   useEffect(() => {
     Notifications.requestPermissionsAsync();
-    const subscription = Notifications.addNotificationReceivedListener(notification => {
+    const subscription = Notifications.addNotificationReceivedListener(async notification => {
       // Handle the incoming notification here
       console.log(notification);
   
       // Display the custom message in an alert
       Alert.alert(notification.request.content.title, notification.request.content.body);
+      try {
+        const { sound } = await Audio.Sound.createAsync(
+          require("../assets/notification_sound.mp3")
+        );
+        await sound.playAsync();
+      } catch (error) {
+        console.log("Failed to play sound:", error);
+      }
     });
   
     return () => {
