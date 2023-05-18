@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   Dimensions,
+  Button
 } from "react-native";
 import dayjs from "dayjs";
 import { ScrollView } from "react-native-gesture-handler";
@@ -25,6 +26,8 @@ function SecondScreen({ navigation }) {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [currentTime, setCurrentTime] = useState(dayjs().format("hh:mm A"));
   const [alarms, setAlarms] = useState([]);
+  const [isAlarmSet, setIsAlarmSet] = useState(false);
+
   // console.log(useState([]));
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -69,9 +72,10 @@ function SecondScreen({ navigation }) {
 
   const scheduleAlarmNotification = async () => {
     const arrivalTime = input3.getTime();
-    const bufferSeconds = floor(Number(buffer) / 60);
+    const bufferSeconds = Math.floor(Number(buffer) * 60);
 
     if (!input1 || !input2 || !arrivalTime || !bufferSeconds) {
+      console.log("input1: "+input1+", input2: "+input2+", input3"+arrivalTime+", input4: "+bufferSeconds)
       Alert.alert("Incomplete Details", "Please fill all details");
       return;
     }
@@ -102,6 +106,7 @@ function SecondScreen({ navigation }) {
       });
 
       setAlarms([...alarms, { time: alarmTime, notificationId }]);
+      setIsAlarmSet(true);
       setInput1("");
       setInput2("");
       setInput3(new Date());
@@ -111,6 +116,13 @@ function SecondScreen({ navigation }) {
       Alert.alert("Error", "Failed to schedule the alarm");
     }
   };
+
+  // const onPressHandler = event => setText("Alarms Set");
+  // useEffect(() => {
+  //   setAlarmText((text) => {
+  //     setText("Alarms Set")
+  //   });
+  // }, [])
 
   return (
     <ImageBackground
@@ -178,13 +190,19 @@ function SecondScreen({ navigation }) {
           </View>
         </View>
         <View style={styles.alarmsContainer}>
-          <Text style={styles.alarmsHeading}>Alarm Set:</Text>
+          {isAlarmSet ? (
+            <Text style={styles.alarmsHeading}>Alarm Set:</Text>
+          ) : (<Text> </Text>)}
           {alarms.map((alarm, index) => (
             <Text key={index} style={styles.alarmItem}>
               {dayjs(alarm.time).format("hh:mm A")}
             </Text>
           ))}
         </View>
+          {/* <View style={{paddingTop: 25}}>
+            <Text>{text}</Text>
+          <Button title="Change Text" onPress={setAlarmsText} />
+          </View> */}
       </View>
     </ImageBackground>
   );
