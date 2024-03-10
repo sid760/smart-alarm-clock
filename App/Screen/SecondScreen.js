@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
@@ -6,19 +6,17 @@ import {
   Text,
   ImageBackground,
   KeyboardAvoidingView,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { Dimensions } from "react-native";
 import dayjs from "dayjs";
 import { ScrollView } from "react-native-gesture-handler";
-import DateTimePicker from '@react-native-community/datetimepicker';
-
-
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 function SecondScreen({ navigation }) {
   const [input1, setInput1] = useState("");
   const [input2, setInput2] = useState("");
-  const [input3, setInput3] = useState(new Date());  
+  const [input3, setInput3] = useState(new Date());
   const [input4, setInput4] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [currentTime, setCurrentTime] = useState(dayjs().format("HH:MM"));
@@ -32,10 +30,9 @@ function SecondScreen({ navigation }) {
 
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || input3;
-    setShowDatePicker(Platform.OS === 'ios');
+    setShowDatePicker(Platform.OS === "ios");
     setInput3(currentDate);
   };
-
 
   return (
     <ImageBackground
@@ -44,8 +41,8 @@ function SecondScreen({ navigation }) {
       style={styles.backgroundImage}
     >
       <View>
-          <Text style={styles.date}>{currentTime}</Text>
-        </View>
+        <Text style={styles.date}>{currentTime}</Text>
+      </View>
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <ScrollView style={{ flex: 1 }}>
@@ -90,7 +87,6 @@ function SecondScreen({ navigation }) {
             />
           </ScrollView>
         </View>
-        
       </View>
     </ImageBackground>
   );
@@ -106,7 +102,7 @@ const styles = StyleSheet.create({
     padding: 0,
     justifyContent: "center",
     alignItems: "center",
-    marginTop:-90,
+    marginTop: -90,
   },
   backgroundImage: {
     flex: 1,
@@ -120,7 +116,7 @@ const styles = StyleSheet.create({
     // flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-   // backgroundColor: "#87CEEB",
+    // backgroundColor: "#87CEEB",
     borderRadius: 20,
     paddingHorizontal: 5,
     // marginTop: 75,
@@ -128,7 +124,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     borderWidth: 5,
-    borderColor:'white',
+    borderColor: "white",
     // flex: 1,
     height: "45%",
     // maxHeight: 400,
@@ -147,14 +143,14 @@ const styles = StyleSheet.create({
   text: {
     textShadowColor: "white",
     color: "white",
-    fontWeight: "900",
+    // fontWeight: "900",
     fontSize: 20,
     // marginTop: 3, // Adjust this value to control the margin from the top
   },
   date: {
     fontSize: 40,
-    fontWeight:700,
-    marginTop:100,
+    // fontWeight:700,
+    marginTop: 100,
     fontFamily: "",
     color: "white",
   },
