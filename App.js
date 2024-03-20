@@ -10,11 +10,11 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const config = {
-  animation: "",
+  animation: "decay",
   config: {
-    stiffness: 100,
-    damping: 1,
-    mass: 1,
+    stiffness: 10,
+    damping: 0.5,
+    mass: 0.5,
     overshootingClamping: false,
     restDisplacementThreshold: 0.01,
     restSpeedThreshold: 0.01,
@@ -42,7 +42,7 @@ export default function App() {
             open: config,
             close: config,
             headerMode: "float",
-            animation: "fade",
+            animation: "decay",
           },
         }}
       >

@@ -7,8 +7,9 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
-import { Dimensions } from "react-native";
+import { Dimensions, ToastAndroid } from "react-native";
 import dayjs from "dayjs";
 import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -20,6 +21,11 @@ function SecondScreen({ navigation }) {
   const [input4, setInput4] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [currentTime, setCurrentTime] = useState(dayjs().format("HH:MM"));
+  const [alarmConfirmation, setAlarmConfirmation] = useState(false);
+
+  const showToast = () => {
+    ToastAndroid.show("Alarm Set!", ToastAndroid.SHORT);
+  };
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -45,7 +51,7 @@ function SecondScreen({ navigation }) {
       </View>
       <View style={styles.container}>
         <View style={styles.inputContainer}>
-          <ScrollView style={{ flex: 1 }}>
+          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
             <Text style={styles.text}>Enter the following details </Text>
             <TextInput
               style={styles.input}
@@ -87,6 +93,14 @@ function SecondScreen({ navigation }) {
             />
           </ScrollView>
         </View>
+        <Pressable
+          style={styles.button}
+          onPress={() => {
+            showToast();
+          }}
+        >
+          <Text>Set Alarm</Text>
+        </Pressable>
       </View>
     </ImageBackground>
   );
@@ -103,6 +117,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: -90,
+    overflow: "hidden",
   },
   backgroundImage: {
     flex: 1,
@@ -111,41 +126,58 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   inputContainer: {
+    // overflow: "visible",
+    position: "relative",
+    flex: 1,
+    // height: "content-height",
     width: "90%",
-    // display: "flex",
-    // flexDirection: "column",
+    display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    // backgroundColor: "#87CEEB",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     borderRadius: 20,
     paddingHorizontal: 5,
-    // marginTop: 75,
+    marginTop: 125,
     padding: 20,
     paddingLeft: 20,
     paddingRight: 20,
     borderWidth: 5,
     borderColor: "white",
     // flex: 1,
-    height: "45%",
-    // maxHeight: 400,
+    // height: "100%",
+    maxHeight: "55%",
   },
   input: {
     // height: 50,
     marginVertical: 10,
     borderWidth: 2,
     borderRadius: 15,
-    padding: 10,
+    padding: 15,
     borderColor: "white",
     // width: 200,
     color: "white",
     alignSelf: "stretch", // Stretch the text input boxes to fill the width of the parent container
+    fontSize: 21,
+    fontWeight: "700",
   },
   text: {
     textShadowColor: "white",
     color: "white",
-    // fontWeight: "900",
+    fontWeight: "900",
     fontSize: 20,
     // marginTop: 3, // Adjust this value to control the margin from the top
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 10,
+    elevation: 3,
+    backgroundColor: "white",
+    // fontWeight: "900",
+    margin: 20,
   },
   date: {
     fontSize: 40,
