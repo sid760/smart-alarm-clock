@@ -5,33 +5,70 @@ import {
   StyleSheet,
   Text,
   ImageBackground,
-  KeyboardAvoidingView,
   TouchableOpacity,
+  Alert,
+  Dimensions,
+  Button,
   Pressable,
 } from "react-native";
 import { Dimensions, ToastAndroid } from "react-native";
 import dayjs from "dayjs";
 import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import * as Notifications from "expo-notifications";
+import { Audio } from "expo-av";
+// import SQLite from 'expo-sqlite';
+// import mysql from 'mysql2/promise';
 
 function SecondScreen({ navigation }) {
   const [input1, setInput1] = useState("");
   const [input2, setInput2] = useState("");
   const [input3, setInput3] = useState(new Date());
-  const [input4, setInput4] = useState("");
+  const [buffer, setBuffer] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [currentTime, setCurrentTime] = useState(dayjs().format("HH:MM"));
+  const [currentTime, setCurrentTime] = useState(dayjs().format("hh:mm A"));
+  const [alarms, setAlarms] = useState([]);
+  const [isAlarmSet, setIsAlarmSet] = useState(false);
   const [alarmConfirmation, setAlarmConfirmation] = useState(false);
 
   const showToast = () => {
     ToastAndroid.show("Alarm Set!", ToastAndroid.SHORT);
   };
 
+  // console.log(useState([]));
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setCurrentTime(dayjs().format("HH:MM"));
+      setCurrentTime(dayjs().format("hh:mm A"));
     }, 1000);
     return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    Notifications.requestPermissionsAsync();
+    const subscription = Notifications.addNotificationReceivedListener(
+      async (notification) => {
+        // Handle the incoming notification here
+        console.log(notification);
+
+        // Display the custom message in an alert
+        Alert.alert(
+          notification.request.content.title,
+          notification.request.content.body
+        );
+        try {
+          const { sound } = await Audio.Sound.createAsync(
+            require("../assets/notification_sound.mp3")
+          );
+          await sound.playAsync();
+        } catch (error) {
+          console.log("Failed to play sound:", error);
+        }
+      }
+    );
+
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   const handleDateChange = (event, selectedDate) => {
@@ -39,6 +76,69 @@ function SecondScreen({ navigation }) {
     setShowDatePicker(Platform.OS === "ios");
     setInput3(currentDate);
   };
+
+  const scheduleAlarmNotification = async () => {
+    const arrivalTime = input3.getTime();
+    const bufferSeconds = Math.floor(Number(buffer) * 60);
+
+    if (!input1 || !input2 || !arrivalTime || !bufferSeconds) {
+      console.log(
+        "input1: " +
+          input1 +
+          ", input2: " +
+          input2 +
+          ", input3" +
+          arrivalTime +
+          ", input4: " +
+          bufferSeconds
+      );
+      Alert.alert("Incomplete Details", "Please fill all details");
+      return;
+    }
+
+    try {
+      const { granted } = await Notifications.getPermissionsAsync();
+      if (!granted) {
+        const { granted: newGranted } =
+          await Notifications.requestPermissionsAsync();
+        if (!newGranted) {
+          Alert.alert(
+            "Permissions required",
+            "Please grant permission to receive notifications."
+          );
+          return;
+        }
+      }
+
+      const alarmTime = arrivalTime + bufferSeconds * 1000;
+      const notificationId = await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Alarm",
+          body: "It's time!",
+          sound: true,
+        },
+        trigger: { seconds: bufferSeconds },
+        repeats: false,
+      });
+
+      setAlarms([...alarms, { time: alarmTime, notificationId }]);
+      setIsAlarmSet(true);
+      setInput1("");
+      setInput2("");
+      setInput3(new Date());
+      setBuffer("");
+      setShowDatePicker(false);
+    } catch (error) {
+      Alert.alert("Error", "Failed to schedule the alarm");
+    }
+  };
+
+  // const onPressHandler = event => setText("Alarms Set");
+  // useEffect(() => {
+  //   setAlarmText((text) => {
+  //     setText("Alarms Set")
+  //   });
+  // }, [])
 
   return (
     <ImageBackground
@@ -59,6 +159,7 @@ function SecondScreen({ navigation }) {
               placeholderTextColor={"white"}
               onChangeText={(text) => setInput1(text)}
               value={input1}
+              required
             />
             <TextInput
               style={styles.input}
@@ -66,14 +167,16 @@ function SecondScreen({ navigation }) {
               placeholderTextColor={"white"}
               onChangeText={(text) => setInput2(text)}
               value={input2}
+              required
             />
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
               <TextInput
                 style={styles.input}
-                placeholder=" Enter Date"
+                placeholder="Enter Date"
                 placeholderTextColor={"white"}
                 value={dayjs(input3).format("DD MMMM YYYY")}
                 editable={false}
+                required
               />
             </TouchableOpacity>
             {showDatePicker && (
@@ -82,16 +185,37 @@ function SecondScreen({ navigation }) {
                 mode="date"
                 display="default"
                 onChange={handleDateChange}
+                required
               />
             )}
             <TextInput
               style={styles.input}
-              placeholder="Buffer"
+              placeholder="Wake me before.. (minutes)"
               placeholderTextColor={"white"}
-              onChangeText={(text) => setInput4(text)}
-              value={input4}
+              onChangeText={(text) => setBuffer(text)}
+              value={buffer}
+              keyboardType="numeric"
+              required
             />
           </ScrollView>
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={scheduleAlarmNotification}>
+              <Text style={styles.buttonText}>Set Alarm</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.alarmsContainer}>
+          {isAlarmSet ? (
+            <Text style={styles.alarmsHeading}>Alarm Set:</Text>
+          ) : (
+            <Text> </Text>
+          )}
+          {alarms.map((alarm, index) => (
+            <Text key={index} style={styles.alarmItem}>
+              {dayjs(alarm.time).format("hh:mm A")}
+            </Text>
+          ))}
         </View>
         <Pressable
           style={styles.button}
@@ -149,13 +273,11 @@ const styles = StyleSheet.create({
     maxHeight: "55%",
   },
   input: {
-    // height: 50,
     marginVertical: 10,
     borderWidth: 2,
     borderRadius: 15,
     padding: 15,
     borderColor: "white",
-    // width: 200,
     color: "white",
     alignSelf: "stretch", // Stretch the text input boxes to fill the width of the parent container
     fontSize: 21,
@@ -185,6 +307,34 @@ const styles = StyleSheet.create({
     marginTop: 100,
     fontFamily: "",
     color: "white",
+  },
+  buttonContainer: {
+    alignSelf: "center",
+    marginTop: 20,
+    backgroundColor: "white",
+    borderRadius: 30,
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+  },
+  buttonText: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  alarmsContainer: {
+    marginTop: 20,
+    alignItems: "center",
+  },
+  alarmsHeading: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+    marginBottom: 10,
+  },
+  alarmItem: {
+    fontSize: 16,
+    color: "white",
+    marginBottom: 5,
   },
 });
 
